@@ -26,6 +26,34 @@ const UserSchema = new mongoose.Schema({
             validator: validator.isEmail, 
             message: "Invalidate Email Format"
         }
+    },
+    age: {
+        type: Number, 
+        required: false,
+    },
+    // return to edit for ft'in -- currently set for cm 
+    height: {
+        type: Number, 
+        required: false,
+    },
+    // return to edit for ibs -- currently set for cm
+    weight: {
+        type: Number,
+        required: false,
+    },
+    gender: {
+        type: String,
+        required: false,
+        enum: ["Male", "Female"]
+    },
+    goals:{
+        type: String, 
+        enum: ["Weight loss", "Muscle Gain", "Maintenance"], 
+        required: false
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
     }
 }, {timestamps: true})
 
