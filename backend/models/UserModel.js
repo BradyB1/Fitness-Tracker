@@ -31,24 +31,26 @@ const UserSchema = new mongoose.Schema({
         type: Number, 
         required: false,
     },
-    // return to edit for ft'in -- currently set for cm 
+    // currently on capable of ft'in
     height: {
-        type: Number, 
-        required: false,
+        feet: { type: Number, required: false, min: 1, max: 8},
+        inches: { type: Number, required: false, min:0, max: 11}
     },
-    // return to edit for ibs -- currently set for cm
+    // currently on capable of ibs
     weight: {
         type: Number,
         required: false,
+        min: 50, 
+        max: 600
     },
     gender: {
         type: String,
         required: false,
-        enum: ["Male", "Female"]
+        enum: ["male", "female", "other"]
     },
     goals:{
         type: String, 
-        enum: ["Weight loss", "Muscle Gain", "Maintenance"], 
+        enum: ["weight loss", "muscle gain", "maintenance"], 
         required: false
     },
     createdAt: {
@@ -60,7 +62,7 @@ const UserSchema = new mongoose.Schema({
 UserSchema.pre("save", async function(next){
     try {
         const salt = await bcrypt.genSalt(saltRounds)
-        this.password = await bcrypt.hash(candidatePassword, this.password)
+        this.password = await bcrypt.hash(this.password, salt)
         next()
     } catch (error) {
         next(error)
